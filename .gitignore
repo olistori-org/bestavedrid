@@ -3,6 +3,43 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Terraform working directory
+.terraform/
+
+# Terraform state
+*.tfstate
+*.tfstate.*
+
+# Variable files
+*.tfvars
+*.tfvars.json
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform lock file
+# Usually commit this for stable provider versions:
+# .terraform.lock.hcl
+
+# Local secret/env files
+.env
+.env.*
+secrets.auto.tfvars
+
+# SSH keys
+*.pem
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
 # C extensions
 *.so
 
