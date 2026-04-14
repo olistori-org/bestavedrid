@@ -25,11 +25,19 @@ jobs:
         run: python -m pip install --upgrade pip ansible
 
       - name: Install Ansible collections
-        run: ansible-galaxy collection install -r ansible/requirements.yml
+        working-directory: ansible
+        run: ansible-galaxy collection install -r requirements.yml
+
+      - name: Bootstrap VPS host
+        working-directory: ansible
+        run: |
+          ansible-playbook playbooks/bootstrap-server.yml \
+            -i inventories/prod/hosts.ini
 
       - name: Run deploy playbook locally on the VPS runner
+        working-directory: ansible
         run: |
-          ansible-playbook ansible/playbooks/deploy-app.yml \
-            -i ansible/inventories/prod/hosts.ini
+          ansible-playbook playbooks/deploy-app.yml \
+            -i inventories/prod/hosts.ini
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}

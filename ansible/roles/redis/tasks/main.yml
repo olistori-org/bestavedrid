@@ -3,6 +3,6 @@
   ansible.builtin.file:
     path: "{{ redis_data_dir }}"
     state: directory
-    owner: "{{ deploy_user }}"
-    group: "{{ deploy_user }}"
+    owner: "{{ redis_deploy_user }}"
+    group: "{{ redis_deploy_user }}"
     mode: "0750"

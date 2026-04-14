@@ -1,2 +1,2 @@
 ---
-deploy_user: deploy
+docker_deploy_user: deploy
