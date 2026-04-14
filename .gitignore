@@ -31,7 +31,31 @@ override.tf.json
 # Local secret/env files
 .env
 .env.*
+!.env.example
 secrets.auto.tfvars
+
+# Node / pnpm
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Logs
+*.log
+logs/
+
+# Ansible
+*.retry
+.vault_pass
+
+# OS
+.DS_Store
+Thumbs.db
 
 # SSH keys
 *.pem

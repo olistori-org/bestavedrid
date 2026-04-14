@@ -1,0 +1,3 @@
+---
+traefik_email: admin@example.com
+traefik_dashboard: false

@@ -1,0 +1,3 @@
+---
+redis_data_dir: /opt/besta-vedrid/redis-data
+deploy_user: deploy

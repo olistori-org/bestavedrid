@@ -1,0 +1,5 @@
+---
+env: dev
+app_dir: /opt/besta-vedrid
+docker_compose_file: docker-compose.yml
+deploy_user: deploy

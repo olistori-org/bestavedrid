@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ansible
+        run: python -m pip install --upgrade pip ansible
+
+      - name: Install Ansible collections
+        run: ansible-galaxy collection install -r ansible/requirements.yml
+
+      - name: Run deploy playbook locally on the VPS runner
+        run: |
+          ansible-playbook ansible/playbooks/deploy-app.yml \
+            -i ansible/inventories/prod/hosts.ini
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
