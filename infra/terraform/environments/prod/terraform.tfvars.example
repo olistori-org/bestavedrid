@@ -1,5 +1,0 @@
-hcloud_token = "your-hcloud-token-here"
-ssh_key_name = "your-ssh-key-name"
-server_type  = "cx22"
-location     = "nbg1"
-image        = "ubuntu-24.04"

@@ -1,8 +1,0 @@
----
-- name: Ensure redis data directory exists
-  ansible.builtin.file:
-    path: "{{ redis_data_dir }}"
-    state: directory
-    owner: "{{ redis_deploy_user }}"
-    group: "{{ redis_deploy_user }}"
-    mode: "0750"

@@ -1,8 +1,0 @@
----
-- name: Ensure postgres data directory exists
-  ansible.builtin.file:
-    path: "{{ postgres_data_dir }}"
-    state: directory
-    owner: "{{ postgres_deploy_user }}"
-    group: "{{ postgres_deploy_user }}"
-    mode: "0750"
