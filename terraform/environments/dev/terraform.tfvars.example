@@ -1,0 +1,11 @@
+hcloud_token   = "your-token-here"
+ssh_public_key = "ssh-ed25519 AAA...."
+"
+
+server_name    = "name"
+server_type    = "cx23"
+server_image   = "ubuntu-24.04"
+location       = "nbg1"
+
+
+ssh_allowed_ips = ["YOUR_PUBLIC_IP/32"]

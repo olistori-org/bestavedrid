@@ -1,0 +1,17 @@
+- name: Install Argo CD
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Create argocd namespace
+      command: kubectl create namespace argocd
+      register: argocd_namespace
+      failed_when: argocd_namespace.rc != 0 and 'AlreadyExists' not in argocd_namespace.stderr
+      changed_when: "'created' in argocd_namespace.stdout"
+
+    - name: Install Argo CD manifests
+      command: kubectl apply --server-side --force-conflicts -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+    - name: Wait for Argo CD server
+      command: kubectl rollout status deployment/argocd-server -n argocd --timeout=180s
+      changed_when: false

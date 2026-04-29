@@ -1,0 +1,23 @@
+- name: Install Kubernetes tools
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Download kubectl
+      get_url:
+        url: https://dl.k8s.io/release/v1.34.0/bin/linux/amd64/kubectl
+        dest: /usr/local/bin/kubectl
+        mode: "0755"
+
+    - name: Download minikube
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: "0755"
+    - name: Verify kubectl
+      command: kubectl version --client
+      changed_when: false
+
+    - name: Verify minikube
+      command: minikube version
+      changed_when: false
