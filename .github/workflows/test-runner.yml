@@ -15,4 +15,7 @@ jobs:
         run: docker --version
 
       - name: Check kubectl
+        env:
+            HOME: /home/github-runner
+            KUBECONFIG: /home/github-runner/.kube/config
         run: kubectl get nodes
