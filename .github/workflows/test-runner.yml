@@ -15,4 +15,4 @@ jobs:
         run: docker --version
 
       - name: Check kubectl
-        run: kubectl get nodes
+        run: sudo KUBECONFIG=/root/.kube/config kubectl get nodes
