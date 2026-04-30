@@ -2,11 +2,25 @@
   hosts: web
   become: true
 
-  tasks:
+  pre_tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
 
+    - name: Get minikube IP
+      shell: minikube ip
+      become: true
+      become_user: github-runner
+      register: minikube_ip_output
+
+    - name: Set fact
+      set_fact:
+        minikube_ip: "{{ minikube_ip_output.stdout }}"
+
+  roles:
+    - nginx
+
+  tasks:
     - name: Install basic packages
       apt:
         name:
