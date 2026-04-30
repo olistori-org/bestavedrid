@@ -40,6 +40,13 @@ resource "hcloud_firewall" "vps" {
     port       = "443"
     source_ips = ["0.0.0.0/0", "::/0"]
   }
+
+  rule {
+    direction  = "in"
+    protocol   = "tcp"
+    port       = "30080"
+    source_ips = ["0.0.0.0/0", "::/0"]
+  }
 }
 
 output "server_ip" {
