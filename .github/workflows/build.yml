@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: Build and Push Image
 
 on:
   push:
@@ -13,5 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -t hello-app:latest ./app
+      - name: Login to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: docker build -t ghcr.io/${{ github.repository }}/hello-app:latest ./app
+
+      - name: Push image
+        run: docker push ghcr.io/${{ github.repository }}/hello-app:latest
