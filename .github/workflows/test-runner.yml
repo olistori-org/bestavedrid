@@ -15,12 +15,4 @@ jobs:
         run: docker --version
 
       - name: Check kubectl
-        env:
-          HOME: /home/github-runner
-          KUBECONFIG: /home/github-runner/.kube/config
-        run: |
-          whoami
-          echo "HOME=$HOME"
-          echo "KUBECONFIG=$KUBECONFIG"
-          kubectl config view --minify
-          kubectl get nodes
+        run: kubectl get nodes
