@@ -1,0 +1,31 @@
+name: Ansible Lint
+
+on:
+  push:
+    paths:
+      - "ansible/**"
+  pull_request:
+    paths:
+      - "ansible/**"
+
+jobs:
+  ansible-lint:
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ansible-lint
+        run: python -m pip install --upgrade pip ansible ansible-lint
+
+      - name: Run ansible-lint
+        working-directory: ansible
+        run: ansible-lint .

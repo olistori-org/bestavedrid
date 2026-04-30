@@ -1,0 +1,75 @@
+- name: Install GitHub Actions runner
+  hosts: web
+  become: true
+
+  vars:
+    github_repo_url: "https://github.com/olistori-org/bestavedrid"
+    runner_user: "github-runner"
+    runner_dir: "/opt/github-runner"
+    runner_version: "2.328.0"
+
+  tasks:
+    - name: Create runner user
+      user:
+        name: "{{ runner_user }}"
+        system: true
+        shell: /bin/bash
+        create_home: true
+
+    - name: Create runner directory
+      file:
+        path: "{{ runner_dir }}"
+        state: directory
+        owner: "{{ runner_user }}"
+        group: "{{ runner_user }}"
+        mode: "0755"
+
+    - name: Download GitHub runner
+      get_url:
+        url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+        dest: "/tmp/actions-runner.tar.gz"
+        mode: "0644"
+
+    - name: Extract GitHub runner
+      unarchive:
+        src: "/tmp/actions-runner.tar.gz"
+        dest: "{{ runner_dir }}"
+        remote_src: true
+        owner: "{{ runner_user }}"
+        group: "{{ runner_user }}"
+
+    - name: Install runner dependencies
+      command: ./bin/installdependencies.sh
+      args:
+        chdir: "{{ runner_dir }}"
+      changed_when: false
+
+    - name: Check if runner is already configured
+      stat:
+        path: "{{ runner_dir }}/.runner"
+      register: runner_config
+
+    - name: Configure GitHub runner
+      command: >
+        ./config.sh
+        --url {{ github_repo_url }}
+        --token {{ github_runner_token }}
+        --name hetzner-dev-runner
+        --labels hetzner,self-hosted,linux,x64,dev
+        --unattended
+      args:
+        chdir: "{{ runner_dir }}"
+      become_user: "{{ runner_user }}"
+      when: not runner_config.stat.exists
+
+    - name: Install runner service
+      command: ./svc.sh install {{ runner_user }}
+      args:
+        chdir: "{{ runner_dir }}"
+      when: not runner_config.stat.exists
+
+    - name: Start runner service
+      command: ./svc.sh start
+      args:
+        chdir: "{{ runner_dir }}"
+      when: not runner_config.stat.exists
