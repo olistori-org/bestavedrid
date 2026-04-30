@@ -9,16 +9,12 @@ spec:
     matchLabels:
       app: hello-app
   template:
-    spec:
-      imagePullSecrets:
-        - name: ghcr-secret
-      containers:
-        - name: hello-app
-          image: ghcr.io/olistori-org/bestavedrid/hello-app:latest
     metadata:
       labels:
         app: hello-app
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: hello-app
           image: ghcr.io/olistori-org/bestavedrid/hello-app:latest
