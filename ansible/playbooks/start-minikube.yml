@@ -3,11 +3,15 @@
   become: true
 
   tasks:
-    - name: Start minikube with Docker driver
-      command: minikube start --driver=docker --force
-      args:
-        creates: /root/.minikube/profiles/minikube/config.json
+    - name: Ensure runner home kube dir exists
+      file:
+        path: /home/github-runner/.kube
+        state: directory
+        owner: github-runner
+        group: github-runner
 
-    - name: Verify cluster nodes
-      command: kubectl get nodes
-      changed_when: false
+    - name: Start minikube as github-runner
+      become_user: github-runner
+      command: minikube start --driver=docker
+      args:
+        creates: /home/github-runner/.minikube/profiles/minikube/config.json
