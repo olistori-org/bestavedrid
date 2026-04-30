@@ -16,6 +16,11 @@ jobs:
 
       - name: Check kubectl
         env:
-            HOME: /home/github-runner
-            KUBECONFIG: /home/github-runner/.kube/config
-        run: kubectl get nodes
+          HOME: /home/github-runner
+          KUBECONFIG: /home/github-runner/.kube/config
+        run: |
+          whoami
+          echo "HOME=$HOME"
+          echo "KUBECONFIG=$KUBECONFIG"
+          kubectl config view --minify
+          kubectl get nodes
