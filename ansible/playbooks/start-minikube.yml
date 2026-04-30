@@ -3,15 +3,22 @@
   become: true
 
   tasks:
-    - name: Ensure runner home kube dir exists
-      file:
-        path: /home/github-runner/.kube
-        state: directory
-        owner: github-runner
-        group: github-runner
+    - name: Ensure github-runner can access Docker
+      user:
+        name: github-runner
+        groups: docker
+        append: true
+
+    - name: Reset SSH/session-independent Docker group access
+      meta: reset_connection
 
     - name: Start minikube as github-runner
       become_user: github-runner
       command: minikube start --driver=docker
       args:
         creates: /home/github-runner/.minikube/profiles/minikube/config.json
+
+    - name: Verify cluster as github-runner
+      become_user: github-runner
+      command: kubectl get nodes
+      changed_when: false
